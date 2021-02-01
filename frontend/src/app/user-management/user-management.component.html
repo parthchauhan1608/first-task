@@ -1,0 +1,90 @@
+<app-navbar [userLogged]="userLogged" [userImage]="adminImage"></app-navbar>
+<div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col">
+        <br><br>
+        <div *ngIf = "viewPage" class="text-left">
+            <table  class="table table-borderless">
+                <tr>
+                    <td colspan="2">
+                        <img [src]="userImage" class="rounded-circle" height="150px" width="150px" alt="Profile Image">
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Name:</b></td>
+                    <td>{{userName}}</td>
+                </tr>
+                <tr>
+                    <td><b>Email:</b></td>
+                    <td>{{userEmail}}</td>
+                </tr>
+                <tr>
+                    <td><b>Role:</b></td>
+                    <td>{{userRole}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <a [routerLink] ="['/users']">
+                            <button type="button" class="btn btn-primary">Back</button>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div *ngIf = "!viewPage">
+            <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+                <div align="center">
+                    <img [src]="userImage" class="rounded-circle" height="150px" width="150px" alt="Profile Image">
+                </div>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" formControlName="name" class="form-control" pattern="^[a-zA-Z]{3,32}$" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+                    <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                        <div *ngIf="f.name.errors.required">User Name is required</div>
+                        <div *ngIf="f.name.errors.pattern">Enter valid Name with minimum 3 characters</div> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" formControlName="email" class="form-control" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                        <div *ngIf="f.email.errors.required">User Email is required</div>
+                        <div *ngIf="f.email.errors.pattern">Enter valid Email</div> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Select Role</label>
+                    <select class="form-control" formControlName="role"  [ngClass]="{ 'is-invalid': submitted && f.role.errors }" >
+                        <option *ngIf="adminRole != 'QUEEN'" value="QUEEN">Queen</option>
+                        <option value="MALE">Male</option>
+                        <option value="FEMALE">Female</option>
+                    </select>
+                    <div *ngIf="submitted && f.role.errors" class="invalid-feedback">
+                        <div *ngIf="f.role.errors.required">required to select Role</div>
+                    </div>
+                </div>
+                <div class="form-group text-left">
+                    <label for="Profile Image">Profile Image</label>
+                    <input type="file" accept="image/*" (change)= "uploadImage($event)" class="form-control-file">
+                </div>
+                <div class="form-group text-left" *ngIf="newUser">
+                    <label for="password">Password</label>
+                    <input type="password" formControlName="password" class="form-control" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{6,30}$" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                        <div *ngIf="f.password.errors.required">Password is required</div>
+                        <div *ngIf="f.password.errors.pattern">Enter Strong Password</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button [disabled]="!submitButton" class="btn btn-primary">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                        Submit
+                    </button>
+                    <a [routerLink] ="['/users']"><button type="button" style="margin-left: 4px;" class="btn btn-primary">Cancel</button></a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>

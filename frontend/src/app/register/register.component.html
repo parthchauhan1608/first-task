@@ -1,0 +1,56 @@
+<app-navbar [userLogged]="userLogged"></app-navbar>
+<br><br><br>
+<h2 style="color: rgb(8, 8, 8);text-shadow: 2px 2px rgb(74, 108, 202)" align = "center">Register</h2>
+<div align="center">
+    <div style="height:auto; width: 400px;" >
+        <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+            <div class="form-group text-left">
+                <label for="name">First Name</label>
+                <input type="text" formControlName="name" pattern="^[a-zA-Z]{3,32}$" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                    <div *ngIf="f.name.errors.required">User Name is required</div>
+                    <div *ngIf="f.name.errors.pattern">Enter valid Name with minimum 3 characters</div> 
+                </div>
+            </div>
+            <div class="form-group text-left">
+                <label for="email">Email</label>
+                <input type="text" formControlName="email" class="form-control" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                    <div *ngIf="f.email.errors.required">User Email is required</div>
+                    <div *ngIf="f.email.errors.pattern">Enter valid Email</div> 
+                </div>
+            </div>
+            <div class="form-group text-left">
+                <label for="exampleFormControlSelect1">Select Role</label>
+                <select class="form-control" formControlName="role" [ngClass]="{ 'is-invalid': submitted && f.role.errors }" >
+                  <option>King</option>
+                  <option>Queen</option>
+                  <option>Male</option>
+                  <option>Female</option>
+                </select>
+                <div *ngIf="submitted && f.role.errors" class="invalid-feedback">
+                    <div *ngIf="f.role.errors.required">required to select Role</div>
+                </div>
+            </div>
+            <div class="form-group text-left">
+                <label for="password">Password</label>
+                <input type="password" formControlName="password" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{6,30}$" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <div *ngIf="f.password.errors.required">Password is required</div>
+                    <div *ngIf="f.password.errors.pattern">Enter Strong Password</div>
+                </div>
+            </div>
+            <div class="form-group text-left">
+                <label for="Profile Image">Profile Image</label>
+                <input type="file" accept="image/*" (change)= "uploadImage($event)" class="form-control-file">
+            </div>
+            <div class="form-group">
+                <button [disabled]="!submitButton"  class="btn btn-primary">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Register
+                </button>
+                <a routerLink="" class="btn btn-link">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

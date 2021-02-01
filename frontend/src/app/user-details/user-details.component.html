@@ -1,0 +1,50 @@
+<app-navbar [userLogged]="userLogged" [userImage]="userImage"></app-navbar>
+<div class="container">
+
+    <br><br><br>
+    <div class="row">
+        <div class="col-xl">
+            <br>
+            <div *ngIf="userRole == 'KING'  || userRole == 'QUEEN'">
+              <a [routerLink] ="['/userManage','create']"><button type="button" class="btn btn-primary">Create Newuser</button></a>
+            </div>
+            <br><br>
+            <input type="text"class="form-control" [(ngModel)]='search' (keyup)="searchByInput()" placeholder="Start searching By Name or Email or Role"/>
+            <br>
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Image</th>
+                    <th scope="col" (click)="sortByName()">Name</th>
+                    <th scope="col" (click)="sortByEmail()">Email</th>
+                    <th scope="col" (click)="sortByRole()">Role</th>
+                    <th scope="col"  *ngIf ='!blockAction' colspan="3">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of data">
+                    <td><img [src]="user.image" class="rounded-circle" height="40px" width="40px" alt="Profile Image"></td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.role}}</td>
+                    <div  *ngIf ='!blockAction'>
+                        <td *ngIf="user.status"><button type="button" class="btn btn-danger" [disabled]="userRole == user.role" (click)="toggleStatus(user._id)">Block</button></td>
+                        <td *ngIf="!user.status"><button type="button" class="btn btn-primary" [disabled]="userRole == user.role" (click)="toggleStatus(user._id)">Unblock</button></td>
+                        <td><a  [routerLink] ="['/userManage','edit',user._id]"><button type="button" class="btn btn-primary" [disabled]="userRole == user.role">Edit</button></a></td>
+                        <td><a  [routerLink] ="['/userManage','view',user._id]"><button type="button" class="btn btn-primary" >View</button></a></td>
+                    </div>
+                  </tr>
+                  <tr>
+                </tbody>
+            </table>
+            <div *ngIf="totalUser > 5">
+              <br>
+              <nav aria-label="...">
+                <ul class="pagination pagination-lg">
+                  <li class="page-item" *ngFor = " let in of totalPage;let i = index"><a class="page-link" href="/users/{{i+1}}">{{i+1}}</a></li>
+                </ul>
+              </nav>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<!--Start Navbar-->
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+      <a class="navbar-brand" href="https://angular.io/">Angular</a>
+  
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <div *ngIf="!userLogged">
+              <a class="nav-link" routerLink=""><b>Login/Register</b></a>
+            </div>
+            <div *ngIf="userLogged">
+              <a class="nav-link" routerLink="" (click)='logoutUser()'><b>Logout</b></a>
+            </div>
+          </li>
+        </ul>
+        <div *ngIf="userLogged">
+          <a style="color: rgb(54, 47, 47);" class="nav-link" routerLink="/profile">
+            <img [src]="userImage" class="rounded-circle" height="40px" width="40px" alt="Profile Image">
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <!--End Navbar-->
